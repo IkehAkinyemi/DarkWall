@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -27,12 +28,15 @@ func Player(musicPath string) {
 	//Initialize speakers
 	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
 
-	finished := make(chan bool)
+	controls := &beep.Ctrl{Streamer: beep.Loop(-1, streamer), Paused: false}
+	speaker.Play(controls)
 
-	speaker.Play(beep.Seq(streamer, beep.Callback(
-		func ()  {
-			finished <- true
-		})))
+	log.Print("Press [ENTER] to pause/resume")
 
-	<-finished
+	for {
+		fmt.Scanln()
+		speaker.Lock()
+		controls.Paused = !controls.Paused
+		speaker.Unlock()
+	}
 }

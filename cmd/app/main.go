@@ -37,7 +37,7 @@ func main() {
 
 	// Setup a select dialog for user
 	prompt := promptui.Select {
-		Label: "Select music file to play:",
+		Label: "Select music file to play",
 		Items: files,
 	}
 	_, musicFile, err := prompt.Run()

@@ -7,11 +7,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var rootCmd = &cobra.Command {
-	Use: "DarkWall",
+var rootCmd = &cobra.Command{
+	Use:   "DarkWall",
 	Short: "DarkWall music player for the CLI",
-	Long: "DarkWalls🌈 is a music player of the CLI, by the CLI and for the CLI (pun intended)",
-	Run: func (cmd *cobra.Command, args []string)  {
+	Long:  "DarkWalls🌈 is a music player of the CLI, by the CLI and for the CLI (pun intended)",
+	Run: func(cmd *cobra.Command, args []string) {
 		internal.Start()
 	},
 }

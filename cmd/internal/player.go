@@ -35,9 +35,9 @@ func Player(musicPath string) {
 	controls := &beep.Ctrl{Streamer: beep.Loop(-1, streamer), Paused: false}
 	vol := effects.Volume{
 		Streamer: controls,
-		Base: 2,
-		Volume: 0,
-		Silent: false,
+		Base:     2,
+		Volume:   0,
+		Silent:   false,
 	}
 	speaker.Play(controls)
 

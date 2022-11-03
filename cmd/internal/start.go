@@ -12,7 +12,7 @@ import (
 func Start() {
 	v := viper.New()
 
-	// Retrieve music path stored in music_path.json 
+	// Retrieve music path stored in music_path.json
 	v.AddConfigPath(".")
 	v.SetConfigName("./music_path")
 	v.SetConfigType("json")
@@ -35,7 +35,7 @@ func Start() {
 	}
 
 	// Setup a select dialog for user
-	prompt := promptui.Select {
+	prompt := promptui.Select{
 		Label: "Select music file to play",
 		Items: files,
 	}

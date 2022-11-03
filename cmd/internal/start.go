@@ -1,16 +1,15 @@
-package main
+package internal
 
 import (
 	"fmt"
 	"log"
 	"os"
 
-	"github.com/ikehakinyemi/internal"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/viper"
 )
 
-func main() {
+func Start() {
 	v := viper.New()
 
 	// Retrieve music path stored in music_path.json 
@@ -45,5 +44,5 @@ func main() {
 		log.Printf("Prompt to select music failed: %+v \n", err)
 	}
 
-	internal.Player(fmt.Sprintf("%s/%s", v.GetString("filepath"), musicFile))	
+	Player(fmt.Sprintf("%s/%s", v.GetString("filepath"), musicFile))
 }

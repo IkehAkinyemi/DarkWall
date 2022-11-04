@@ -13,7 +13,6 @@ import (
 
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
-	termbx "github.com/nsf/termbox-go"
 )
 
 // AudioPlayer retrieve music file, decodes and stream the data
@@ -51,12 +50,6 @@ func AudioPlayer(musicfile string) {
 	speed := beep.ResampleRatio(4, 1, vol)
 	speaker.Play(speed)
 
-	termboxErr := termbx.Init()
-	if termboxErr != nil {
-		log.Fatal(termboxErr)
-	}
-	defer termbx.Close()
-
 	// Extract music file name.
 	splitedStr := strings.Split(musicfile, "/")
 	selectedMusic := "Current Playing: " + splitedStr[len(splitedStr)-1]
@@ -73,42 +66,49 @@ func AudioPlayer(musicfile string) {
 	// CLI user interface: Audio controls content
 	ctrlsInfo := widgets.NewParagraph()
 	ctrlsInfo.Title = "Audio controls"
-	ctrlsInfo.Text = `Pause/resume audio: [ENTER]
+	ctrlsInfo.Text = `Pause/resume audio: [SPACE]
 	Increase/decrease volume: [↓ ↑] 
-	Go back: [BACKSPACE]
-	Noraml Speed: [Ctrl + N]
+	Go back: [ENTER]
+	Noraml Speed: [N]
 	Speed:  [← →]
-	Press escape key to exit DarkWalls: [Esc]`
+	Exit DarkWalls: [Q]`
 	ctrlsInfo.TitleStyle.Fg = ui.Color(220)
 	ctrlsInfo.BorderStyle.Fg = ui.Color(85)
 	ctrlsInfo.TextStyle.Fg = ui.Color(195)
 	ctrlsInfo.SetRect(0, 4, 69, 12)
 
 	// Render the UIs
-	ui.Render(headerPara, ctrlsInfo)
+	events := ui.PollEvents()
+	ticker := time.NewTicker(time.Second).C
+	render := func() {
+		ui.Render(headerPara, ctrlsInfo)
+	}
 
 	for {
-		keyEvent := termbx.PollEvent()
+		select {
+		case e := <-events:
+			switch e.ID {
+			case "<Enter>": // menu
+				Start()
+			case "<Space>": // pause/resume music
+				controls.Paused = !controls.Paused
+			case "q": // quit audioplayer
+				os.Exit(0)
+			case "<Down>": // decrease volume
+				vol.Volume -= 0.2
+			case "<Up>": //increase volume
+				vol.Volume += 0.2
+			case "<Left>": // decrease speed by x1.1
+				speed.SetRatio(speed.Ratio() - 0.1)
+			case "<Right>": // increase speed by x1.1
+				speed.SetRatio(speed.Ratio() + 0.1)
+			case "n": // Normalize speed
+				speed.SetRatio(1)
 
-		speaker.Lock()
+			}
+		case <-ticker:
+			render()
 
-		switch {
-		case keyEvent.Key == termbx.KeyEnter: // menu
-			Start()
-		case keyEvent.Key == termbx.KeySpace: // pause/resume music
-			controls.Paused = !controls.Paused
-		case keyEvent.Key == termbx.KeyEsc: // quit audioplayer
-			os.Exit(0)
-		case keyEvent.Key == termbx.KeyArrowDown: // decrease volume
-			vol.Volume -= 0.2
-		case keyEvent.Key == termbx.KeyArrowUp: //increase volume
-			vol.Volume += 0.2
-		case keyEvent.Key == termbx.KeyArrowLeft: // decrease speed by x1.1
-			speed.SetRatio(speed.Ratio() - 0.1)
-		case keyEvent.Key == termbx.KeyArrowRight: // increase speed by x1.1
-			speed.SetRatio(speed.Ratio() + 0.1)
-		case keyEvent.Key == termbx.KeyCtrlN: // Normalize speed
-			speed.SetRatio(1)
 		}
 
 		switch {
@@ -121,7 +121,5 @@ func AudioPlayer(musicfile string) {
 		case speed.Ratio() >= 2:
 			speed.SetRatio(2)
 		}
-
-		speaker.Unlock()
 	}
 }

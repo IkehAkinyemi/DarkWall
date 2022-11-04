@@ -4,11 +4,10 @@ go 1.19
 
 require (
 	github.com/faiface/beep v1.1.0
+	github.com/gizak/termui/v3 v3.1.0
 	github.com/manifoldco/promptui v0.9.0
-	github.com/nsf/termbox-go v1.1.1
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.13.0
-	github.com/gizak/termui/v3 v3.1.0
 )
 
 require (
@@ -22,6 +21,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.9 // indirect
 	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	github.com/nsf/termbox-go v1.1.1 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect

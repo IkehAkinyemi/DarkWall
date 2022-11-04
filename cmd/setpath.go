@@ -16,7 +16,7 @@ var setpathCmd = &cobra.Command{
 		argsString := strings.Join(args, "")
 
 		internal.NewFilePath(argsString)
-		internal.Start()
+		internal.AudioMenu()
 	},
 }
 

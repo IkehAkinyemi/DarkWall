@@ -12,7 +12,7 @@ var rootCmd = &cobra.Command{
 	Short: "DarkWalls music player for the CLI",
 	Long:  "DarkWalls🌈 is a music player of the CLI, by the CLI and for the CLI (pun intended)",
 	Run: func(cmd *cobra.Command, args []string) {
-		internal.Start()
+		internal.AudioMenu()
 	},
 }
 

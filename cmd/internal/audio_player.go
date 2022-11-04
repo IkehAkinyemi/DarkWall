@@ -89,11 +89,12 @@ func AudioPlayer(musicfile string) {
 		case e := <-events:
 			switch e.ID {
 			case "<Enter>": // menu
-				Start()
+				controls.Paused = !controls.Paused
+				AudioMenu()
 			case "<Space>": // pause/resume music
 				controls.Paused = !controls.Paused
 			case "q": // quit audioplayer
-				os.Exit(0)
+				return
 			case "<Down>": // decrease volume
 				vol.Volume -= 0.2
 			case "<Up>": //increase volume

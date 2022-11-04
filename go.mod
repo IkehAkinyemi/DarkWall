@@ -1,4 +1,4 @@
-module github.com/ikehakinyemi
+module github.com/ikehakinyemi/dark-walls
 
 go 1.19
 

@@ -3,7 +3,7 @@ package cmd
 import (
 	"strings"
 
-	"github.com/ikehakinyemi/cmd/internal"
+	"github.com/ikehakinyemi/dark-walls/cmd/internal"
 	"github.com/spf13/cobra"
 )
 

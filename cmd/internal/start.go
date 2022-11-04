@@ -40,11 +40,11 @@ func Start() {
 		Label: "Select music file to play",
 		Items: files,
 	}
-	_, musicFile, err := prompt.Run()
+	_, selectedFile, err := prompt.Run()
 	if err != nil {
 		log.Printf("Prompt to select music failed: %+v \n", err)
 	}
 
 	// Player contains logic for music player
-	Player(fmt.Sprintf("%s/%s", v.GetString("filepath"), musicFile))
+	Player(fmt.Sprintf("%s/%s", v.GetString("filepath"), selectedFile))
 }

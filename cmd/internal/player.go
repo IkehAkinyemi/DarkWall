@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/faiface/beep"
+	"github.com/faiface/beep/effects"
 	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/speaker"
 
@@ -15,8 +16,8 @@ import (
 )
 
 // player retrieve music file, decodes and stream the data
-func Player(musicPath string) {
-	file, err := os.Open(musicPath)
+func Player(musicfile string) {
+	file, err := os.Open(musicfile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,6 +34,12 @@ func Player(musicPath string) {
 
 	// Setup basic controls for pause/resume music and increase/decrease vol.
 	controls := &beep.Ctrl{Streamer: beep.Loop(-1, streamer), Paused: false}
+	vol := effects.Volume {
+		Streamer: controls,
+		Base: 2,
+		Volume: 0,
+		Silent: false,
+	}
 	speaker.Play(controls)
 
 	termboxErr := termbx.Init()
@@ -41,21 +48,37 @@ func Player(musicPath string) {
 	}
 	defer termbx.Close()
 
-	fmt.Printf("Playing: %s\n", strings.Replace(musicPath, ".mp3", "", 1))
+	fmt.Printf("Playing: %s\n\n", strings.Replace(musicfile, ".mp3", "", 1))
 	fmt.Println("Use [ENTER] to pause/resume: [ENTER]")
+	fmt.Println("Increase/decrease volume: [↓ ↑]")
 	fmt.Println("Go back: [BACKSPACE]")
 	fmt.Println("Press escape key to exit DarkWalls: [Esc]")
 
 	for {
 		keyEvent := termbx.PollEvent()
 
+		speaker.Lock()
+
 		switch {
 		case keyEvent.Key == termbx.KeyEnter:
-			controls.Paused = !controls.Paused
-		case keyEvent.Key == termbx.KeyBackspace:
 			Start()
+		case keyEvent.Key == termbx.KeySpace:
+			controls.Paused = !controls.Paused
 		case keyEvent.Key == termbx.KeyEsc:
 			os.Exit(0)
+		case keyEvent.Key == termbx.KeyArrowDown:
+			vol.Volume -= 0.2
+		case keyEvent.Key == termbx.KeyArrowUp:
+			vol.Volume += 0.2
 		}
+
+		switch {
+		case vol.Volume >= 2:
+			vol.Volume = 2
+		case vol.Volume <= -2:
+			vol.Volume = -2
+		}
+
+		speaker.Unlock()
 	}
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+//.Start setups config and initiates the player
 func Start() {
 	v := viper.New()
 
@@ -44,5 +45,6 @@ func Start() {
 		log.Printf("Prompt to select music failed: %+v \n", err)
 	}
 
+	// Player contains logic for music player
 	Player(fmt.Sprintf("%s/%s", v.GetString("filepath"), musicFile))
 }

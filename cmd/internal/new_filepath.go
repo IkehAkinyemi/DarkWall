@@ -1,15 +1,13 @@
 package internal
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 
 	"github.com/spf13/viper"
 )
 
-//NewFilePath creates a new music folder if none is found
-func NewFilePath() {
+// NewFilePath creates a new music folder if none is found
+func NewFilePath(newPath string) {
 	v := viper.New()
 
 	v.AddConfigPath(".")
@@ -21,17 +19,10 @@ func NewFilePath() {
 		fmt.Println(err)
 	}
 
-	// Only ask and retrieve folder containing music when none is found
-	if v.Get("music_path") == "" {
-		fmt.Println("Enter folder (absolute path) containing music files")
-		scn := bufio.NewScanner(os.Stdin)
-		scn.Scan()
+	// write to config.json file the absolute path for your music folder
+	v.Set("music_path", newPath)
+	v.WriteConfig()
 
-		newPath := scn.Text()
+	fmt.Println("Folder successfully added")
 
-		v.Set("music_path", newPath)
-		v.WriteConfig()
-
-		fmt.Println("Folder successfully added")
-	}
 }

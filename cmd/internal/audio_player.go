@@ -81,17 +81,19 @@ func AudioPlayer(musicfile string) {
 	speedGauge := widgets.NewGauge()
 	speedGauge.Title = "Speed rate"
 	speedGauge.Percent = 50
+	speedGauge.BarColor = ui.Color(185)
 	speedGauge.BorderStyle.Fg = ui.Color(85)
 	speedGauge.TitleStyle.Fg = ui.Color(220)
-	speedGauge.SetRect(0, 3, 69, 6)
+	speedGauge.SetRect(0, 6, 69, 9)
 
 	// CLI UI: volume UI
 	volGuage := widgets.NewGauge()
 	volGuage.Title = "Volume"
 	volGuage.Percent = 50
+	volGuage.BarColor = ui.ColorMagenta
 	volGuage.BorderStyle.Fg = ui.Color(85)
 	volGuage.TitleStyle.Fg = ui.Color(220)
-	volGuage.SetRect(0, 6, 69, 9)
+	volGuage.SetRect(0, 3, 69, 6)
 
 	// Render the UIs
 	events := ui.PollEvents()
@@ -112,16 +114,16 @@ func AudioPlayer(musicfile string) {
 			case "q": // quit audioplayer
 				return
 			case "<Down>": // decrease volume
-			volGuage.Percent -= 2
+				volGuage.Percent -= 2
 				vol.Volume -= 0.2
 			case "<Up>": //increase volume
-			volGuage.Percent += 2
+				volGuage.Percent += 2
 				vol.Volume += 0.2
 			case "<Left>": // decrease speed by x1.1
-			speedGauge.Percent -= 2
+				speedGauge.Percent -= 2
 				speed.SetRatio(speed.Ratio() - 0.1)
 			case "<Right>": // increase speed by x1.1
-			speedGauge.Percent += 2
+				speedGauge.Percent += 2
 				speed.SetRatio(speed.Ratio() + 0.1)
 			case "n": // Normalize speed
 				speed.SetRatio(1)

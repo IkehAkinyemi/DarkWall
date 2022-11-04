@@ -112,7 +112,7 @@ func AudioPlayer(musicfile string) {
 			case "<Space>": // pause/resume music
 				controls.Paused = !controls.Paused
 			case "q": // quit audioplayer
-				return
+				os.Exit(0)
 			case "<Down>": // decrease volume
 				volGuage.Percent -= 2
 				vol.Volume -= 0.2
@@ -134,6 +134,7 @@ func AudioPlayer(musicfile string) {
 
 		}
 
+		// Revert to safe threshold
 		switch {
 		case vol.Volume >= 2:
 			volGuage.Percent = 100

@@ -44,9 +44,9 @@ func AudioMenu() {
 
 	// CLI user interface: Music list content
 	list := widgets.NewList()
-	list.Title = "Your music list"
+	list.Title = "DarkWalls🌈: Select music file to play"
 	list.Rows = files
-	list.TextStyle = ui.NewStyle(ui.Color(195))
+	list.SelectedRowStyle = ui.NewStyle(ui.Color(207))
 	list.WrapText = false
 	list.SetRect(0, 0, 69, len(files)+2)
 	list.BorderStyle.Fg = ui.Color(85)

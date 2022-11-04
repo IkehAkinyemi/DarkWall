@@ -65,6 +65,9 @@ func AudioPlayer(musicfile string) {
 	headerPara := widgets.NewParagraph()
 	headerPara.Title = "DarkWalls🌈"
 	headerPara.Text = selectedMusic
+	headerPara.TitleStyle.Fg = ui.Color(220)
+	headerPara.BorderStyle.Fg = ui.Color(85)
+	headerPara.TextStyle.Fg = ui.Color(195)
 	headerPara.SetRect(0, 0, 69, 3)
 
 	// CLI user interface: Audio controls content
@@ -76,6 +79,9 @@ func AudioPlayer(musicfile string) {
 	Noraml Speed: [Ctrl + N]
 	Speed:  [← →]
 	Press escape key to exit DarkWalls: [Esc]`
+	ctrlsInfo.TitleStyle.Fg = ui.Color(220)
+	ctrlsInfo.BorderStyle.Fg = ui.Color(85)
+	ctrlsInfo.TextStyle.Fg = ui.Color(195)
 	ctrlsInfo.SetRect(0, 4, 69, 12)
 
 	// Render the UIs

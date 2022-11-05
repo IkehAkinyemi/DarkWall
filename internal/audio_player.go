@@ -119,7 +119,7 @@ func (au AudioPlayer) Player(musicfile string) {
 				file.Close()
 
 				// Return to menu
-				os.Exit(0)
+				au.AudioMenu()
 			case "<Space>": // pause/resume music
 				controls.Paused = !controls.Paused
 			case "q": // quit audioplayer

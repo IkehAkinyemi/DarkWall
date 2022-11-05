@@ -5,7 +5,11 @@
 
 # DarkWalls🌈 CLI Audio player
 
-DarkWalls🌈 is a simple music player of the CLI, by the CLI and for the CLI (pun intended). DarkWalls audio player currently has supports for `WAV`, `MP3`, `OGG`, and `FLAC` audio formats.
+DarkWalls🌈 is a simple music player of the CLI, by the CLI and for the CLI (pun intended). 
+
+# Feature
+- DarkWalls audio player currently has supports for `WAV`, `MP3`, `OGG`, and `FLAC` audio formats.
+- Audio can be looped, pause/resume, change volume, and playback speed.
 
 ## Install
 Clone source files from GitHub to build/run the program. Ensure to have [Go](https://go.dev/) installed and setup, then clone by running this command:

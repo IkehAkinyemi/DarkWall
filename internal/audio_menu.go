@@ -49,6 +49,8 @@ func (au AudioPlayer) AudioMenu() {
 	events := ui.PollEvents()
 
 	for {
+		// Listen for key events, and perform differnet actions 
+		//accordingly
 		event := <-events
 		switch event.ID {
 		case "q", "<C-c>":

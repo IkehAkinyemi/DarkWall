@@ -16,7 +16,7 @@ import (
 )
 
 // AudioPlayer retrieve music file, decodes and stream the data
-func AudioPlayer(musicfile string) {
+func (au AudioPlayer) Player(musicfile string) {
 	// CLI user interface
 	err := ui.Init()
 	if err != nil {
@@ -108,7 +108,7 @@ func AudioPlayer(musicfile string) {
 			switch e.ID {
 			case "<Enter>": // menu
 				controls.Paused = !controls.Paused
-				AudioMenu()
+				au.AudioMenu()
 			case "<Space>": // pause/resume music
 				controls.Paused = !controls.Paused
 			case "q": // quit audioplayer

@@ -7,25 +7,16 @@ import (
 
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
-	"github.com/spf13/viper"
 )
+type AudioPlayer struct {
+	Directory string
+}
 
 // AudioMenu setups configs and the AudioPlayer UI
-func AudioMenu() {
-	v := viper.New()
-
-	// Retrieve music path stored in music_path.json
-	v.AddConfigPath(".")
-	v.SetConfigName("./music_path")
-	v.SetConfigType("json")
-
-	err := v.ReadInConfig()
-	if err != nil {
-		log.Println(err)
-	}
+func (au AudioPlayer) AudioMenu() {
 
 	// Retrieve directory entries
-	filepath, err := os.ReadDir(v.GetString("filepath"))
+	filepath, err := os.ReadDir(au.Directory)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -79,8 +70,9 @@ func AudioMenu() {
 			}
 		case "<Enter>":
 			selectedFIle := files[list.SelectedRow]
+
 			// AudioPlayer contains logic for music player
-			AudioPlayer(fmt.Sprintf("%s/%s", v.GetString("filepath"), selectedFIle))
+			au.Player(fmt.Sprintf("%s/%s", au.Directory, selectedFIle))
 		}
 		ui.Render(list)
 	}

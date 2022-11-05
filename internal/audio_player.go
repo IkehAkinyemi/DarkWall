@@ -54,7 +54,6 @@ func (au AudioPlayer) Player(musicfile string) {
 	speed := beep.ResampleRatio(4, 1, vol)
 	speaker.Play(speed)
 	defer speaker.Close()
-	
 
 	// Extract music file name.
 	splitedStr := strings.Split(musicfile, "/")
@@ -175,5 +174,5 @@ func fileFormat(fileName string, file *os.File) (beep.StreamSeekCloser, beep.For
 		return vorbis.Decode(file)
 	default:
 		return mp3.Decode(file)
-	} 
+	}
 }

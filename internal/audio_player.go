@@ -8,8 +8,11 @@ import (
 
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/effects"
+	"github.com/faiface/beep/flac"
 	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/speaker"
+	"github.com/faiface/beep/vorbis"
+	"github.com/faiface/beep/wav"
 
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
@@ -28,9 +31,10 @@ func (au AudioPlayer) Player(musicfile string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer file.Close()
 
 	// decodes audio data in MP3 format to stream the audio.
-	streamer, format, err := mp3.Decode(file)
+	streamer, format, err := fileFormat(musicfile, file)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,6 +53,8 @@ func (au AudioPlayer) Player(musicfile string) {
 	}
 	speed := beep.ResampleRatio(4, 1, vol)
 	speaker.Play(speed)
+	defer speaker.Close()
+	
 
 	// Extract music file name.
 	splitedStr := strings.Split(musicfile, "/")
@@ -108,7 +114,13 @@ func (au AudioPlayer) Player(musicfile string) {
 			switch e.ID {
 			case "<Enter>": // menu
 				controls.Paused = !controls.Paused
-				au.AudioMenu()
+				streamer.Close()
+				speaker.Close()
+				ui.Close()
+				file.Close()
+
+				// Return to menu
+				os.Exit(0)
 			case "<Space>": // pause/resume music
 				controls.Paused = !controls.Paused
 			case "q": // quit audioplayer
@@ -150,4 +162,18 @@ func (au AudioPlayer) Player(musicfile string) {
 			speed.SetRatio(2)
 		}
 	}
+}
+
+// fileFormat checks file extension and returen right decoder for it.
+func fileFormat(fileName string, file *os.File) (beep.StreamSeekCloser, beep.Format, error) {
+	switch {
+	case strings.HasSuffix(fileName, ".wav"):
+		return wav.Decode(file)
+	case strings.HasSuffix(fileName, ".flac"):
+		return flac.Decode(file)
+	case strings.HasSuffix(fileName, ".ogg"):
+		return vorbis.Decode(file)
+	default:
+		return mp3.Decode(file)
+	} 
 }

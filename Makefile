@@ -1,7 +1,17 @@
-## run/api: run the cmd/api application
-.PHONY: run/app
+## audio: run the cmd/app application with custom directory
+.PHONY: audio
 audio:
-	go run ./cmd/app -music-dir=${music-dir}
+	@echo 'Add the absolute path to your music directory ↲ '
+	@echo 'command: make audio dir=<directory>'
+	go run ./cmd/app -dir=${music-dir}
+
+
+## cmd/app: run the cmd/app application default directory
+.PHONY: cmd/app
+cmd/app:
+	@echo 'Running application...'
+	go run ./cmd/app
+
 
 ## audit: tidy dependencies and format, vet and test all code
 .PHONY: audit

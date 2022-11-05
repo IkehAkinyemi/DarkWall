@@ -19,13 +19,12 @@ Change directory into the project and see [Usage](#usage).
 Specify the absolute path to your music directory using the `-music-dir=<directory>` flag like below.
 
 ```sh
- make audio music-dir=<directory>
+ make audio -dir=<directory>
 ```
-You can use the sample music contained in the `sampleMusic` folder to test the project. Obtain the pwd and use it in the above command
+You can use the sample music contained in the `sampleMusic` folder to test the project as below:
 
 ```sh
-cd sampleMusic
-pwd
+make cmd/app
 ```
 
 ### Build
